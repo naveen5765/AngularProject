@@ -1,16 +1,23 @@
+import { HttpClientModule } from "@angular/common/http";
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { MatRadioModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatRadioModule,
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
