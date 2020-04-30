@@ -1,4 +1,22 @@
 .example-radio-group {
-    display: flex; flex-direction: column;
-    margin: 15px 0;
-  }
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+td.mat-cell {
+  border-bottom-style: none;
+}
+
+th.mat-header-cell {
+  border-bottom-style: none;
+}
+
+.mat-row {
+  height: auto;
+}
+
+.mat-cell,
+.mat-header-cell {
+  padding: 15px 50px 15px 0;
+}

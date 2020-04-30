@@ -1,9 +1,10 @@
-import { SurveyQuestionAnswer } from './surveyQuestionAnswer';
-import { SurveySession } from './surveySession';
+import { SurveyQuestionAnswer } from "./surveyQuestionAnswer";
 
-export class SurveyQuestion{
-    questionId?: number;
-    question: String;
-    questionAnswers?: SurveyQuestionAnswer[];
-    session?: SurveySession;
+export class SurveyQuestion {
+  questionId?: number;
+  question: String;
+  questionAnswers?: SurveyQuestionAnswer[];
+  id: String;
+  value: String;
+  answer: number;
 }

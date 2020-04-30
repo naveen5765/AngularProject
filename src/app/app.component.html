@@ -1,36 +1,148 @@
 <div class="card">
-    <div class="card-header">
-        <h6>Please provide your feedback</h6>
-    </div>
-    <div class="card-body"> 
-                 
-      <form [formGroup]="radioButtonQuestionForm" (ngSubmit)="onSubmit()">
-        <div *ngFor="let question of radioButtonQuestions">
-          <label>{{question.question}}</label>
-          <mat-radio-group class="example-radio-group" [formControlName]="question.questionId">
-            <mat-radio-button
-              *ngFor="let answer of question.questionAnswers" [value]="answer">
-              {{answer.answer}}
-            </mat-radio-button>
-          </mat-radio-group>
-        </div>
-      </form> 
+  <div class="card-header">
+    <h6>Please provide your feedback</h6>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="radioButtonQuestionForm" (ngSubmit)="onSubmit()">
+      <div *ngFor="let question of radioButtonQuestions">
+        <label>{{ question.question }}</label>
+        <mat-radio-group
+          class="example-radio-group"
+          [formControlName]="question.questionId"
+        >
+          <mat-radio-button
+            *ngFor="let answer of question.questionAnswers"
+            [value]="answer"
+          >
+            {{ answer.answer }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </form>
 
-      <form [formGroup]="radioButtonGridQuestionForm" (ngSubmit)="onSubmit()">
-        <div *ngFor="let question of radioButtonGridQuestions">
-          <label>Session from {{question.session.startsAt}} till {{question.session.endsAt}}</label>
-          <br>
-          <label>{{question.question}}</label><br>
-            <mat-radio-button [value]="answer1">1</mat-radio-button><br>
-            <mat-radio-button [value]="answer2">2</mat-radio-button><br>
-            <mat-radio-button [value]="answer3">3</mat-radio-button><br>
-            <mat-radio-button [value]="answer4">4</mat-radio-button><br>
-            <mat-radio-button [value]="answer5">5</mat-radio-button><br>
-            <mat-radio-button [value]="answerNA">N/A</mat-radio-button><br>
-        </div>
-      </form> 
+    <form [formGroup]="radioButtonGridQuestionForm" (ngSubmit)="onSubmit()">
+      <div *ngFor="let session of sessions">
+        <label
+          >Session from {{ session.startsAt }} till {{ session.endsAt }}</label
+        >
+        <br />
+        <table
+          id="assessmentsTable"
+          mat-table
+          [dataSource]="session.questionsDataSource"
+        >
+          <ng-container matColumnDef="question">
+            <th class="headerCell" mat-header-cell *matHeaderCellDef></th>
+            <td style="width: 175px;" mat-cell *matCellDef="let assessment">
+              {{ assessment.value }}
+            </td>
+          </ng-container>
 
-      <button class="btn btn-primary card-body-buttons" type="submit" form="ngForm" 
-        (click)="onSubmit(radioButtonQuestionForm.value)">Submit</button>
-    </div>
+          <ng-container matColumnDef="answer_one">
+            <th class="headerCell" mat-header-cell *matHeaderCellDef>1</th>
+            <td class="radioButtonCell" mat-cell *matCellDef="let assessment">
+              <mat-radio-button
+                (change)="setAssessmentLevel(session.id, assessment, 1)"
+                [name]="assessment.id"
+                value="1"
+                [checked]="assessment.answer == 1"
+              ></mat-radio-button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="answer_two">
+            <th class="headerCell" mat-header-cell *matHeaderCellDef>2</th>
+            <td class="radioButtonCell" mat-cell *matCellDef="let assessment">
+              <mat-radio-button
+                (change)="setAssessmentLevel(session.id, assessment, 2)"
+                [name]="assessment.id"
+                value="2"
+                [checked]="assessment.answer == 2"
+              ></mat-radio-button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="answer_three">
+            <th class="headerCell" mat-header-cell *matHeaderCellDef>
+              3
+            </th>
+            <td class="radioButtonCell" mat-cell *matCellDef="let assessment">
+              <mat-radio-button
+                (change)="setAssessmentLevel(session.id, assessment, 3)"
+                [name]="assessment.id"
+                value="3"
+                [checked]="assessment.answer == 3"
+              ></mat-radio-button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="answer_four">
+            <th class="headerCell" mat-header-cell *matHeaderCellDef>4</th>
+            <td class="radioButtonCell" mat-cell *matCellDef="let assessment">
+              <mat-radio-button
+                (change)="setAssessmentLevel(session.id, assessment, 4)"
+                [name]="assessment.id"
+                value="4"
+                [checked]="assessment.answer == 4"
+              ></mat-radio-button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="answer_five">
+            <th class="headerCell" mat-header-cell *matHeaderCellDef>5</th>
+            <td class="radioButtonCell" mat-cell *matCellDef="let assessment">
+              <mat-radio-button
+                (change)="setAssessmentLevel(session.id, assessment, 5)"
+                [name]="assessment.id"
+                value="4"
+                [checked]="assessment.answer == 5"
+              ></mat-radio-button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="not_applicable">
+            <th class="headerCell" mat-header-cell *matHeaderCellDef>
+              N/A
+            </th>
+            <td class="radioButtonCell" mat-cell *matCellDef="let assessment">
+              <mat-radio-button
+                (change)="setAssessmentLevel(session.id, assessment, 6)"
+                [name]="assessment.id"
+                value="4"
+                [checked]="assessment.answer == 6"
+              ></mat-radio-button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th class="headerCell" mat-header-cell *matHeaderCellDef>
+              Description
+            </th>
+            <td mat-cell *matCellDef="let assessment">
+              {{ assessment.description }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <!-- <label>{{ question.question }}</label> -->
+        <!-- <mat-radio-button [value]="answer1">1</mat-radio-button>
+        <mat-radio-button [value]="answer2">2</mat-radio-button>
+        <mat-radio-button [value]="answer3">3</mat-radio-button>
+        <mat-radio-button [value]="answer4">4</mat-radio-button>
+        <mat-radio-button [value]="answer5">5</mat-radio-button>
+        <mat-radio-button [value]="answerNA">N/A</mat-radio-button> -->
+      </div>
+    </form>
+
+    <button
+      class="btn btn-primary card-body-buttons"
+      type="submit"
+      form="ngForm"
+      (click)="onSubmit(radioButtonQuestionForm.value)"
+    >
+      Submit
+    </button>
+  </div>
 </div>
